@@ -6,18 +6,22 @@ export const fetchPhotos = createAsyncThunk(
   'photos/fetchPhotos',
   async () => {        
       const res = await getPhotos()
-      return res
+      return res.data
     }
   )
 
 type InitValues = {
   photos: Photos[]
+  pageSize: number
+  pageNumber: number  
   isLoading: boolean
   error: string | null
 }  
 
 const initialState: InitValues = {
   photos: [],
+  pageSize: 12,
+  pageNumber: 1,  
   isLoading: false,
   error: null  
 }
@@ -25,7 +29,11 @@ const initialState: InitValues = {
 export const photosSlice = createSlice({
   name: 'photos',  
   initialState,
-  reducers: {},
+  reducers: {
+    setPageNumber(state: InitValues, action){
+      state.pageNumber = action.payload
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchPhotos.pending, (state: InitValues) => {
         state.isLoading = true
@@ -42,4 +50,5 @@ export const photosSlice = createSlice({
   }    
 })
 
+export const {setPageNumber} = photosSlice.actions
 export default photosSlice.reducer

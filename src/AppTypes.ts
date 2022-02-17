@@ -1,6 +1,6 @@
 export interface Photo {
-    albumId: number | null,
-    id: number | null,
+    albumId: number,
+    id: number,
     title: string,
     url: string,
     thumbnailUrl: string

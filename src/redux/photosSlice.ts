@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { getPhotos } from '../API'
-import { PhotoCards } from './../AppTypes';
+import { Photo, PhotoCards } from './../AppTypes';
 
 export const fetchPhotos = createAsyncThunk(
   'photos/fetchPhotos',
@@ -19,6 +19,7 @@ export const fetchPhotos = createAsyncThunk(
 
 type InitValues = {  
   photoPages: PhotoCards[]
+  currentPage: Photo[]
   pageSize: number
   pageNumber: number  
   isLoading: boolean
@@ -28,7 +29,8 @@ type InitValues = {
 const initialState: InitValues = {  
   photoPages: [],
   pageSize: 12,
-  pageNumber: 1,  
+  pageNumber: 1,
+  currentPage: [],  
   isLoading: false,
   error: null  
 }
@@ -39,6 +41,9 @@ export const photosSlice = createSlice({
   reducers: {
     setPageNumber(state: InitValues, action){
       state.pageNumber = action.payload
+    },
+    setCurrentPage(state: InitValues, actions){
+      state.currentPage = actions.payload
     }
   },
   extraReducers: (builder) => {
@@ -57,5 +62,5 @@ export const photosSlice = createSlice({
   }    
 })
 
-export const {setPageNumber} = photosSlice.actions
+export const {setPageNumber, setCurrentPage} = photosSlice.actions
 export default photosSlice.reducer

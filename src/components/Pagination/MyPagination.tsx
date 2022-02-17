@@ -11,7 +11,7 @@ type Props = {
 
 const MyPagination: React.FC<Props> = ({ photoPages, pageNumber }) => {
 	const dispatch = useAppDispatch();
-	const pageCount = photoPages.length;
+	const pageCount = photoPages.length - 1;
 	function changeCurrentPage(e: React.ChangeEvent<unknown>, value: number) {
 		dispatch(setPageNumber(value));
 	}

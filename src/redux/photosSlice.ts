@@ -1,25 +1,32 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { getPhotos } from '../API'
-import { Photos } from '../AppTypes'
+import { PhotoCards } from './../AppTypes';
 
 export const fetchPhotos = createAsyncThunk(
   'photos/fetchPhotos',
   async () => {        
-      const res = await getPhotos()
-      return res.data
+      const res = await getPhotos();
+      const photos = res.data
+      const pageSize = 12;
+      const photoPages = [];
+      for (let i = 0; i < Math.ceil(photos.length / pageSize); i++){
+        photoPages.push(photos.slice((i*pageSize), (i*pageSize) + pageSize))
+      }  
+      return photoPages
     }
   )
+ 
 
-type InitValues = {
-  photos: Photos[]
+type InitValues = {  
+  photoPages: PhotoCards[]
   pageSize: number
   pageNumber: number  
   isLoading: boolean
   error: string | null
 }  
 
-const initialState: InitValues = {
-  photos: [],
+const initialState: InitValues = {  
+  photoPages: [],
   pageSize: 12,
   pageNumber: 1,  
   isLoading: false,
@@ -39,7 +46,7 @@ export const photosSlice = createSlice({
         state.isLoading = true
     })
     builder.addCase(fetchPhotos.fulfilled, (state: InitValues, action) => {
-        state.photos = action.payload
+        state.photoPages = action.payload
         state.isLoading = false
         state.error = null
     })

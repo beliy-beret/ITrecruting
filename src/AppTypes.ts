@@ -1,7 +1,9 @@
-export interface Photos {
+export interface Photo {
     albumId: number | null,
     id: number | null,
     title: string,
     url: string,
     thumbnailUrl: string
 }
+
+export type PhotoCards = Photo[]

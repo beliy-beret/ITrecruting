@@ -5,5 +5,5 @@ const instance = axios.create({
 });
 
 export function getPhotos(): Promise<any>{
-    return instance.get('photos');        
+  return instance.get('photos');        
 }

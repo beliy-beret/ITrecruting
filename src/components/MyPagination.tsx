@@ -27,6 +27,7 @@ const MyPagination: React.FC<Props> = ({ photoPages, pageNumber }) => {
 				marginY: 2,
 				marginX: 'auto',
 				width: '50%',
+				minWidth: '350px',
 			}}
 		/>
 	);

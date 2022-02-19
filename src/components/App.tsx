@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, useMediaQuery } from '@mui/material';
 import { fetchPhotos, setCurrentPage } from '../redux/photosSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { Photo } from '../AppTypes';
@@ -20,6 +20,7 @@ const App: React.FC = () => {
 	const { photoPages, pageNumber, currentPage } = useAppSelector(
 		(state) => state.userPhotos
 	);
+	const maxWidth = useMediaQuery('(max-width:550px)');
 
 	function setModalData(id: number) {
 		const active = currentPage.find((item) => item.id === id);
@@ -41,10 +42,11 @@ const App: React.FC = () => {
 
 	return (
 		<Container maxWidth="lg">
+			<ModalWindow isOpen={isOpen} setIsOpen={setIsOpen} photo={activePhoto} />
 			<MyPagination photoPages={photoPages} pageNumber={pageNumber} />
 			<Grid container spacing={1}>
 				{currentPage?.map((item) => (
-					<Grid item xs={3} key={item.id}>
+					<Grid item xs={maxWidth ? 4 : 3} key={item.id}>
 						<PhotoCard
 							key={item.id}
 							imgUrl={item.thumbnailUrl}
@@ -56,7 +58,6 @@ const App: React.FC = () => {
 					</Grid>
 				))}
 			</Grid>
-			<ModalWindow isOpen={isOpen} setIsOpen={setIsOpen} photo={activePhoto} />
 		</Container>
 	);
 };

@@ -23,10 +23,6 @@ const ModalWindow: React.FC<Props> = ({ isOpen, setIsOpen, photo }) => {
 		<Modal
 			open={isOpen}
 			sx={{
-				position: 'absolute',
-				top: 0,
-				left: 0,
-				padding: '1rem',
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',

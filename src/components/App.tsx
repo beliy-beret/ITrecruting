@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid, useMediaQuery } from '@mui/material';
-import { fetchPhotos, setCurrentPage } from '../redux/photosSlice';
+import { Container } from '@mui/material';
+import { fetchPhotos } from '../redux/photosSlice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { Photo } from '../AppTypes';
-import MyPagination from './MyPagination';
-import PhotoCard from './PhotoCard';
 import ModalWindow from './ModalWindow';
+import AllPhotos from './AllPhotos';
 
 const App: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -17,47 +16,25 @@ const App: React.FC = () => {
 		title: '',
 		url: '',
 	});
-	const { photoPages, pageNumber, currentPage } = useAppSelector(
-		(state) => state.userPhotos
-	);
-	const maxWidth = useMediaQuery('(max-width:550px)');
+	const { allPhotos } = useAppSelector((state) => state.userPhotos);
 
 	function setModalData(id: number) {
-		const active = currentPage.find((item) => item.id === id);
+		const active = allPhotos.find((item) => item.id === id);
 		active && setActivePhoto(active);
-	}
-
-	function deletePhoto(id: number) {
-		const result = currentPage.filter((item) => item.id !== id);
-		dispatch(setCurrentPage(result));
 	}
 
 	useEffect(() => {
 		dispatch(fetchPhotos());
 	}, [dispatch]);
 
-	useEffect(() => {
-		dispatch(setCurrentPage(photoPages[pageNumber - 1]));
-	}, [pageNumber, photoPages, dispatch]);
-
 	return (
 		<Container maxWidth="lg">
 			<ModalWindow isOpen={isOpen} setIsOpen={setIsOpen} photo={activePhoto} />
-			<MyPagination photoPages={photoPages} pageNumber={pageNumber} />
-			<Grid container spacing={1}>
-				{currentPage?.map((item) => (
-					<Grid item xs={maxWidth ? 4 : 3} key={item.id}>
-						<PhotoCard
-							key={item.id}
-							imgUrl={item.thumbnailUrl}
-							id={item.id}
-							deletePhoto={deletePhoto}
-							setModalData={setModalData}
-							setIsOpen={setIsOpen}
-						/>
-					</Grid>
-				))}
-			</Grid>
+			<AllPhotos
+				allPhotos={allPhotos}
+				setModalData={setModalData}
+				setIsOpen={setIsOpen}
+			/>
 		</Container>
 	);
 };

@@ -1,24 +1,22 @@
 import React from 'react';
 import { Pagination } from '@mui/material';
-import { PhotoCards } from '../AppTypes';
 import { useAppDispatch } from '../hooks';
 import { setPageNumber } from '../redux/photosSlice';
 
 type Props = {
-	photoPages: PhotoCards[];
+	pages: number;
 	pageNumber: number;
 };
 
-const MyPagination: React.FC<Props> = ({ photoPages, pageNumber }) => {
+const MyPagination: React.FC<Props> = ({ pages, pageNumber }) => {
 	const dispatch = useAppDispatch();
-	const pageCount = photoPages.length;
 	function changeCurrentPage(e: React.ChangeEvent<unknown>, value: number) {
 		dispatch(setPageNumber(value));
 	}
 
 	return (
 		<Pagination
-			count={pageCount}
+			count={pages}
 			color="primary"
 			shape="rounded"
 			page={pageNumber}

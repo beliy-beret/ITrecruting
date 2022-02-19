@@ -1,36 +1,28 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { getPhotos } from '../API'
-import { Photo, PhotoCards } from './../AppTypes';
+import { Photo } from './../AppTypes';
 
 export const fetchPhotos = createAsyncThunk(
   'photos/fetchPhotos',
   async () => {        
       const res = await getPhotos();
-      const photos = res.data
-      const pageSize = 12;
-      const photoPages = [];
-      for (let i = 0; i < Math.ceil(photos.length / pageSize); i++){
-        photoPages.push(photos.slice((i*pageSize), (i*pageSize) + pageSize))
-      }  
-      return photoPages
+      return res.data      
     }
   )
  
 
 type InitValues = {  
-  photoPages: PhotoCards[]
-  currentPage: Photo[]
-  pageSize: number
-  pageNumber: number  
-  isLoading: boolean
+  allPhotos: Photo[],  
+  activePage: Photo[],
+  pageNumber: number,  
+  isLoading: boolean,
   error: string | null
 }  
 
-const initialState: InitValues = {  
-  photoPages: [],
-  pageSize: 12,
+const initialState: InitValues = {
+  allPhotos: [],  
   pageNumber: 1,
-  currentPage: [],  
+  activePage: [],  
   isLoading: false,
   error: null  
 }
@@ -42,8 +34,8 @@ export const photosSlice = createSlice({
     setPageNumber(state: InitValues, action){
       state.pageNumber = action.payload
     },
-    setCurrentPage(state: InitValues, actions){
-      state.currentPage = actions.payload
+    changePhotoList(state: InitValues, actions){
+      state.allPhotos = actions.payload
     }
   },
   extraReducers: (builder) => {
@@ -51,7 +43,7 @@ export const photosSlice = createSlice({
         state.isLoading = true
     })
     builder.addCase(fetchPhotos.fulfilled, (state: InitValues, action) => {
-        state.photoPages = action.payload
+        state.allPhotos = action.payload
         state.isLoading = false
         state.error = null
     })
@@ -62,5 +54,5 @@ export const photosSlice = createSlice({
   }    
 })
 
-export const {setPageNumber, setCurrentPage} = photosSlice.actions
+export const {setPageNumber, changePhotoList} = photosSlice.actions
 export default photosSlice.reducer

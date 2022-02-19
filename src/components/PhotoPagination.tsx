@@ -8,7 +8,7 @@ type Props = {
 	pageNumber: number;
 };
 
-const MyPagination: React.FC<Props> = ({ pages, pageNumber }) => {
+const PhotoPagination: React.FC<Props> = ({ pages, pageNumber }) => {
 	const dispatch = useAppDispatch();
 	function changeCurrentPage(e: React.ChangeEvent<unknown>, value: number) {
 		dispatch(setPageNumber(value));
@@ -31,4 +31,4 @@ const MyPagination: React.FC<Props> = ({ pages, pageNumber }) => {
 	);
 };
 
-export default MyPagination;
+export default PhotoPagination;

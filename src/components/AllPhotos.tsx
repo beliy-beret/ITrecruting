@@ -1,24 +1,28 @@
-import { Grid, useMediaQuery } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { Grid, Typography } from '@mui/material';
 import { Photo, PhotoCards } from '../AppTypes';
-import { useAppDispatch, useAppSelector } from '../hooks';
-import { changePhotoList } from '../redux/photosSlice';
-import { RootState } from '../redux/store';
-import MyPagination from './MyPagination';
+import { useAppSelector } from '../hooks';
+import PhotoPagination from './PhotoPagination';
 import PhotoCard from './PhotoCard';
 
 type Props = {
 	allPhotos: Photo[];
+	maxWidth: boolean;
 	setModalData: (id: number) => void;
 	setIsOpen: (status: boolean) => void;
+	deletePhoto: (id: number) => void;
 };
 
-const AllPhotos: React.FC<Props> = ({ allPhotos, setModalData, setIsOpen }) => {
+const AllPhotos: React.FC<Props> = ({
+	allPhotos,
+	setModalData,
+	setIsOpen,
+	deletePhoto,
+	maxWidth,
+}) => {
 	const pageSize = 12;
-	const maxWidth = useMediaQuery('(max-width:550px)');
-	const { pageNumber } = useAppSelector((state: RootState) => state.userPhotos);
+	const { pageNumber } = useAppSelector((state) => state.userPhotos);
 	const [pages, setPages] = useState<PhotoCards[]>([]);
-	const dispatch = useAppDispatch();
 	const activePage = pages[pageNumber - 1];
 
 	useEffect(() => {
@@ -33,14 +37,16 @@ const AllPhotos: React.FC<Props> = ({ allPhotos, setModalData, setIsOpen }) => {
 		return pages;
 	}
 
-	function deletePhoto(id: number) {
-		const result = allPhotos.filter((item) => item.id !== id);
-		dispatch(changePhotoList(result));
-	}
-
 	return (
 		<>
-			<MyPagination pages={pages.length} pageNumber={pageNumber} />
+			<Typography
+				component={'h2'}
+				align={'center'}
+				variant={'h2'}
+				sx={{ textDecoration: 'underline' }}>
+				All photos
+			</Typography>
+			<PhotoPagination pages={pages.length} pageNumber={pageNumber} />
 			<Grid container spacing={1}>
 				{activePage?.map((item) => (
 					<Grid item xs={maxWidth ? 4 : 3} key={item.id}>

@@ -12,8 +12,7 @@ export const fetchPhotos = createAsyncThunk(
  
 
 type InitValues = {  
-  allPhotos: Photo[],  
-  activePage: Photo[],
+  allPhotos: Photo[],
   pageNumber: number,  
   isLoading: boolean,
   error: string | null
@@ -21,8 +20,7 @@ type InitValues = {
 
 const initialState: InitValues = {
   allPhotos: [],  
-  pageNumber: 1,
-  activePage: [],  
+  pageNumber: 1,  
   isLoading: false,
   error: null  
 }

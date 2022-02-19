@@ -1,5 +1,5 @@
-import { Pagination } from '@mui/material';
 import React from 'react';
+import { Pagination } from '@mui/material';
 import { PhotoCards } from '../../AppTypes';
 import { useAppDispatch } from '../../hooks';
 import { setPageNumber } from '../../redux/photosSlice';
@@ -23,6 +23,11 @@ const MyPagination: React.FC<Props> = ({ photoPages, pageNumber }) => {
 			shape="rounded"
 			page={pageNumber}
 			onChange={changeCurrentPage}
+			sx={{
+				marginY: 2,
+				marginX: 'auto',
+				width: '50%',
+			}}
 		/>
 	);
 };

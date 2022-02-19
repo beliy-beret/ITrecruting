@@ -1,8 +1,8 @@
 import React from 'react';
 import { Pagination } from '@mui/material';
-import { PhotoCards } from '../../AppTypes';
-import { useAppDispatch } from '../../hooks';
-import { setPageNumber } from '../../redux/photosSlice';
+import { PhotoCards } from '../AppTypes';
+import { useAppDispatch } from '../hooks';
+import { setPageNumber } from '../redux/photosSlice';
 
 type Props = {
 	photoPages: PhotoCards[];

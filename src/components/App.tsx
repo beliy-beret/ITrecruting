@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from '@mui/material';
-import { fetchPhotos, setCurrentPage } from '../../redux/photosSlice';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import MyPagination from '../Pagination/MyPagination';
-import PhotoCard from '../PhotoCard/PhotoCard';
-import { Photo } from '../../AppTypes';
-import style from './app.module.css';
-import ModalWindow from '../ModalWindow/ModalWindow';
+import { Container, Grid } from '@mui/material';
+import { fetchPhotos, setCurrentPage } from '../redux/photosSlice';
+import { useAppDispatch, useAppSelector } from '../hooks';
+import { Photo } from '../AppTypes';
+import MyPagination from './MyPagination';
+import PhotoCard from './PhotoCard';
+import ModalWindow from './ModalWindow';
 
 const App: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -41,29 +40,24 @@ const App: React.FC = () => {
 	}, [pageNumber, photoPages, dispatch]);
 
 	return (
-		<div>
+		<Container maxWidth="lg">
 			<MyPagination photoPages={photoPages} pageNumber={pageNumber} />
-			<Container maxWidth="lg">
-				<div className={style.photoList}>
-					{currentPage?.map((item) => (
+			<Grid container spacing={1}>
+				{currentPage?.map((item) => (
+					<Grid item xs={3} key={item.id}>
 						<PhotoCard
 							key={item.id}
 							imgUrl={item.thumbnailUrl}
-							title={item.title}
 							id={item.id}
 							deletePhoto={deletePhoto}
 							setModalData={setModalData}
 							setIsOpen={setIsOpen}
 						/>
-					))}
-				</div>
-				<ModalWindow
-					isOpen={isOpen}
-					setIsOpen={setIsOpen}
-					photo={activePhoto}
-				/>
-			</Container>
-		</div>
+					</Grid>
+				))}
+			</Grid>
+			<ModalWindow isOpen={isOpen} setIsOpen={setIsOpen} photo={activePhoto} />
+		</Container>
 	);
 };
 

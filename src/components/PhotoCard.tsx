@@ -1,10 +1,9 @@
 import React from 'react';
-import style from './photoCard.module.css';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Card, CardMedia } from '@mui/material';
 
 type Props = {
 	imgUrl: string;
-	title: string;
 	id: number;
 	deletePhoto: (id: number) => void;
 	setModalData: (id: number) => void;
@@ -13,7 +12,6 @@ type Props = {
 
 const PhotoCard: React.FC<Props> = ({
 	imgUrl,
-	title,
 	id,
 	deletePhoto,
 	setModalData,
@@ -29,13 +27,13 @@ const PhotoCard: React.FC<Props> = ({
 	}
 
 	return (
-		<div className={style.card}>
-			<img src={imgUrl} alt={title} onClick={onClickPhoto} />
-			<h2 className={style.title}>{title}</h2>
-			<button className={style.delete} onClick={onClickButton}>
-				<DeleteIcon />
-			</button>
-		</div>
+		<Card sx={{ position: 'relative' }}>
+			<CardMedia component={'img'} image={imgUrl} onClick={onClickPhoto} />
+			<DeleteIcon
+				onClick={onClickButton}
+				sx={{ position: 'absolute', top: '1rem', right: '1rem' }}
+			/>
+		</Card>
 	);
 };
 
